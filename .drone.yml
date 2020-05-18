@@ -9,6 +9,32 @@ steps:
   volumes:
   - name: cache
     path: /root/.m2
+- name: publish
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile
+    username:
+      from_secret: aliyun_registry_username
+    password:
+      from_secret: aliyun_registry_password
+    repo: registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
+    registry: registry-vpc.cn-shanghai.aliyuncs.com
+    tags: latest
+- name: deploy
+  image: appleboy/drone-ssh
+  settings:
+    host: 47.100.191.229
+    username:
+      from_secret: server_username
+    password:
+      from_secret: server_password
+    port: 22
+    script:
+    - docker stop demo
+    - docker rm demo
+    - docker image rm registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
+    - docker pull registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
+    - docker run --name=demo -d -p 8080:8080 registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
 
 volumes:
 - name: cache
