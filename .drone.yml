@@ -34,7 +34,7 @@ steps:
     - docker rm demo
     - docker image rm registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
     - docker pull registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
-    - docker run --name=demo -d -p 8080:8080 registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
+    - docker run --name=demo -d -p 8000:8000 registry-vpc.cn-shanghai.aliyuncs.com/lingmhuany/demo
 
 volumes:
 - name: cache
